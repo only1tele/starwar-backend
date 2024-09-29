@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import config from './config';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-store';
+import { PeopleModule } from './modules/people/people.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { redisStore } from 'cache-manager-redis-store';
       isGlobal: true,
       load: [config],
     }),
+    PeopleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
