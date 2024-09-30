@@ -4,14 +4,17 @@ services:
     image: redis:latest
     restart: always
     ports:
-      - "6370:6379"
+      - '6370:6379'
     volumes:
       - ./cache:/root/redis
   backend:
     environment:
       - STAR_WAR_API=https://swapi.dev/api/
       - REDIS_URI=redis://redis:6379
+      - THROTTLE_TTL=60000
+      - THROTTLE_LIMIT=20
+      - REDIS_TTL=1800
     ports:
-      - "3007:3007"
+      - '3007:3007'
     build:
       context: .
