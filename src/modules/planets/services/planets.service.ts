@@ -58,7 +58,7 @@ export class PlanetsService {
     return planetWithDetails;
   }
 
-  private async fetchResidents(residents: string[]): Promise<string[]> {
+  public async fetchResidents(residents: string[]): Promise<string[]> {
     const residentPromises = residents.map((url) =>
       this.starWarService.getByUrl<StarwarPeople>(url).catch(() => null),
     );
@@ -68,7 +68,7 @@ export class PlanetsService {
       .map((resident: StarwarPeople) => resident.name);
   }
 
-  private async fetchFilms(films: string[]): Promise<string[]> {
+  public async fetchFilms(films: string[]): Promise<string[]> {
     const filmPromises = films.map((url) =>
       this.starWarService.getByUrl<StarwarFilm>(url).catch(() => null),
     );

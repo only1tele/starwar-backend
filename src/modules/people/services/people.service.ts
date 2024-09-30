@@ -76,7 +76,7 @@ export class PeopleService {
     return peopleWithDetails;
   }
 
-  private async fetchVehicles(residents: string[]): Promise<string[]> {
+  public async fetchVehicles(residents: string[]): Promise<string[]> {
     const vehiclePromises = residents.map((url) =>
       this.starWarService.getByUrl<StarwarVehicle>(url).catch(() => null),
     );
@@ -86,7 +86,7 @@ export class PeopleService {
       .map((vehicle: StarwarVehicle) => vehicle.name);
   }
 
-  private async fetchStarships(residents: string[]): Promise<string[]> {
+  public async fetchStarships(residents: string[]): Promise<string[]> {
     const shipPromises = residents.map((url) =>
       this.starWarService.getByUrl<StarwarShip>(url).catch(() => null),
     );
@@ -94,7 +94,7 @@ export class PeopleService {
     return shipResults.filter(Boolean).map((ship: StarwarShip) => ship.name);
   }
 
-  private async fetchFilms(films: string[]): Promise<string[]> {
+  public async fetchFilms(films: string[]): Promise<string[]> {
     const filmPromises = films.map((url) =>
       this.starWarService.getByUrl<StarwarFilm>(url).catch(() => null),
     );
@@ -102,7 +102,7 @@ export class PeopleService {
     return filmResults.filter(Boolean).map((film: StarwarFilm) => film.title);
   }
 
-  private async fetchHomeworld(url: string): Promise<string> {
+  public async fetchHomeworld(url: string): Promise<string> {
     const homeworld = await this.starWarService
       .getByUrl<StarwarPlanet>(url)
       .catch(() => null);
