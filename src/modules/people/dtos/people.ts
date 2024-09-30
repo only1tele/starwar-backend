@@ -1,6 +1,7 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 import { PaginatedResponse } from 'src/common/dtos/paginated-response.dto';
+import { Planet } from 'src/modules/planets/dtos/planets';
 
 export class PeopleBase {
   @ApiProperty({

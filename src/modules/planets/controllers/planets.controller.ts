@@ -4,6 +4,7 @@ import { PlanetsService } from '../services/planets.service';
 import { QueryDto } from 'src/common/dtos/query.dto';
 import { PaginatedPlanetResponse, Planet } from '../dtos/planets';
 import { ParamIdDto } from 'src/common/dtos/param.dto';
+import { CommonApiResponses } from 'src/common/decorators/api-responses.decorator';
 
 @Controller('planets')
 @ApiTags('Planets')
@@ -12,11 +13,13 @@ export class PlanetsController {
 
   @ApiOkResponse({
     type: PaginatedPlanetResponse,
+    description: 'List of planets successfully retrieved',
   })
+  @CommonApiResponses()
   @ApiQuery({
     name: 'page',
     description: 'Page number for paginated results, defaults to 1.',
-    required: false,
+    required: true,
     type: 'number',
   })
   @ApiQuery({
@@ -50,7 +53,9 @@ export class PlanetsController {
   })
   @ApiOkResponse({
     type: Planet,
+    description: 'Planets details successfully retrieved',
   })
+  @CommonApiResponses()
   async getPlanetById(@Param() params: ParamIdDto) {
     return await this.planetsService.getPlanetById(params);
   }
