@@ -9,6 +9,9 @@ import { PeopleModule } from './modules/people/people.module';
 import { RedisCacheModule } from './common/redis-cache/redis-cache.module';
 import { APP_FILTER } from '@nestjs/core/constants';
 import { AllExceptionsFilter } from './common/filters/http-exception.filter';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { PlanetsModule } from './modules/planets/planets.module';
 
 @Module({
   imports: [
@@ -25,19 +28,30 @@ import { AllExceptionsFilter } from './common/filters/http-exception.filter';
       },
       inject: [ConfigService],
     }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 20,
+      },
+    ]),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],
     }),
     PeopleModule,
+    PlanetsModule,
     RedisCacheModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    {
+     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
   ],
 })
