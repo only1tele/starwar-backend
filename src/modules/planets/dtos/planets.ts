@@ -70,11 +70,6 @@ export class Planet extends PlanetBase {
   films: string[];
 }
 
-export class ParamIdDto {
-  @IsString()
-  id: string;
-}
-
 export class PaginatedPlanetResponse extends PaginatedResponse<PlanetBase> {
   @ApiProperty({
     isArray: true,
