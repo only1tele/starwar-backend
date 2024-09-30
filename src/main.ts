@@ -16,6 +16,7 @@ async function bootstrap() {
     }),
   );
   const configService = app.get(ConfigService);
+  app.enableCors();
   app.disable('x-powered-by', 'X-Powered-By');
   const config = new DocumentBuilder()
     .setTitle('Starwar Backend')
@@ -25,7 +26,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
   logger.log(
-    `Starting application on http://localhost:${configService.get('PORT')}`,
+    `Starting application on http://localhost:${configService.get('PORT')}/docs`,
   );
   await app.listen(configService.get('PORT') as number);
 }
