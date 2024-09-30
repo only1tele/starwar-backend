@@ -16,6 +16,7 @@ async function bootstrap() {
     }),
   );
   const configService = app.get(ConfigService);
+  app.enableCors();
   app.disable('x-powered-by', 'X-Powered-By');
   const config = new DocumentBuilder()
     .setTitle('Starwar Backend')
