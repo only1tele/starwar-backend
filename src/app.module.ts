@@ -7,6 +7,8 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-store';
 import { PeopleModule } from './modules/people/people.module';
 import { RedisCacheModule } from './common/redis-cache/redis-cache.module';
+import { APP_FILTER } from '@nestjs/core/constants';
+import { AllExceptionsFilter } from './common/filters/http-exception.filter';
 
 @Module({
   imports: [
@@ -31,6 +33,12 @@ import { RedisCacheModule } from './common/redis-cache/redis-cache.module';
     RedisCacheModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+  ],
 })
 export class AppModule {}
