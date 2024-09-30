@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AxiosError } from 'axios';
-
+import { ThrottlerException } from '@nestjs/throttler';
 import { CUSTOM_ERROR_MESSAGES } from 'src/config/constants';
 
 @Catch()
@@ -29,6 +29,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
       message =
         exception.response?.statusText ||
         CUSTOM_ERROR_MESSAGES.EXTERNAL_SERVICE_ERROR;
+    } else if (exception instanceof ThrottlerException) {
+      status = HttpStatus.TOO_MANY_REQUESTS;
+      message = CUSTOM_ERROR_MESSAGES.TOO_MANY_REQUESTS;
     } else if (exception instanceof HttpException) {
       status = exception.getStatus();
       const exceptionResponse = exception.getResponse();
