@@ -9,6 +9,8 @@ import { PeopleModule } from './modules/people/people.module';
 import { RedisCacheModule } from './common/redis-cache/redis-cache.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { PlanetsModule } from './modules/planets/planets.module';
+
 
 @Module({
   imports: [
@@ -36,6 +38,7 @@ import { APP_GUARD } from '@nestjs/core';
       load: [config],
     }),
     PeopleModule,
+    PlanetsModule,
     RedisCacheModule,
   ],
   controllers: [AppController],
