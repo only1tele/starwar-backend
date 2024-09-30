@@ -1,0 +1,16 @@
+services:
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6370:6379"
+    volumes:
+      - ./cache:/root/redis
+  backend:
+    environment:
+      - STAR_WAR_API=https://swapi.dev/api/
+      - REDIS_URI=redis://redis:6379
+    ports:
+      - "3007:3007"
+    build:
+      context: .
