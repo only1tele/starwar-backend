@@ -43,6 +43,17 @@ Repository: [https://github.com/only1tele/starwar-backend](https://github.com/on
 
 ---
 
+## Tools and Technologies Used
+
+- **NestJS**: A progressive Node.js framework for building efficient and scalable server-side applications.
+- **Redis**: An in-memory data structure store, used as a database, cache, and message broker.
+  - **Usage**: Redis is used to cache API responses for the `people` and `planets` endpoints. This improves performance by reducing external API calls and efficiently handling frequent requests.
+- **Throttler**: Used for rate limiting to ensure the system isn't overwhelmed by too many requests in a short period.
+- **Jest**: A testing framework used to ensure code quality with unit and integration tests.
+- **Docker**: Utilized for containerization of the application, ensuring consistent environments across different stages of development.
+
+---
+
 ## Installation
 
 1. Clone the repository:
