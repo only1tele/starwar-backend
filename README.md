@@ -6,7 +6,7 @@ This is the backend part of the Star Wars project, which wraps the [Star Wars AP
 
 Repository: [https://github.com/only1tele/starwar-backend](https://github.com/only1tele/starwar-backend)
 
-Postman collection: (https://www.postman.com/majortele/tele/collection/x58p2em/starwar-backend?action=share&creator=13006942&active-environment=13006942-8731114d-e631-4b46-98ca-27de7b5c3319)
+Postman collection: [https://www.postman.com](https://www.postman.com/majortele/tele/collection/x58p2em/starwar-backend?action=share&creator=13006942&active-environment=13006942-8731114d-e631-4b46-98ca-27de7b5c3319)
 
 ---
 
