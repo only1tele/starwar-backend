@@ -7,10 +7,11 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-store';
 import { PeopleModule } from './modules/people/people.module';
 import { RedisCacheModule } from './common/redis-cache/redis-cache.module';
+import { APP_FILTER } from '@nestjs/core/constants';
+import { AllExceptionsFilter } from './common/filters/http-exception.filter';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { PlanetsModule } from './modules/planets/planets.module';
-
 
 @Module({
   imports: [
@@ -44,6 +45,10 @@ import { PlanetsModule } from './modules/planets/planets.module';
   controllers: [AppController],
   providers: [
     AppService,
+     {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
