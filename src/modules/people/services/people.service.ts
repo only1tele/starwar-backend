@@ -11,13 +11,18 @@ import { extractIdFromUrl, extractPageNumber } from 'src/utils/pagination.util';
 import { PaginatedPeopleResponse, People, PeopleBase } from '../dtos/people';
 import { ParamIdDto } from 'src/common/dtos/param.dto';
 import { RedisCacheService } from 'src/common/redis-cache/redis-cache.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PeopleService {
+  private redisTTL: number;
   constructor(
     private readonly starWarService: StarWarService,
     private readonly redisCacheService: RedisCacheService,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    this.redisTTL = this.configService.get<number>('REDIS_TTL');
+  }
   async getPeople(
     page: number,
     search?: string,
@@ -35,7 +40,11 @@ export class PeopleService {
       results: data.results.map(this.mapToPeopleBase),
     };
 
-    await this.redisCacheService.set(cacheKey, paginatedResponse, 1800);
+    await this.redisCacheService.set(
+      cacheKey,
+      paginatedResponse,
+      this.redisTTL,
+    );
     return paginatedResponse;
   }
 
@@ -59,7 +68,11 @@ export class PeopleService {
       vehicles,
       starships,
     });
-    await this.redisCacheService.set(cacheKey, peopleWithDetails, 1800);
+    await this.redisCacheService.set(
+      cacheKey,
+      peopleWithDetails,
+      this.redisTTL,
+    );
     return peopleWithDetails;
   }
 
