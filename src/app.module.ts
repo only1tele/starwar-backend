@@ -6,6 +6,7 @@ import config from './config';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-store';
 import { PeopleModule } from './modules/people/people.module';
+import { RedisCacheModule } from './common/redis-cache/redis-cache.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { PeopleModule } from './modules/people/people.module';
       load: [config],
     }),
     PeopleModule,
+    RedisCacheModule,
   ],
   controllers: [AppController],
   providers: [AppService],

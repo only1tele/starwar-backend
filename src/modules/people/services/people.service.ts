@@ -10,15 +10,22 @@ import {
 import { extractIdFromUrl, extractPageNumber } from 'src/utils/pagination.util';
 import { PaginatedPeopleResponse, People, PeopleBase } from '../dtos/people';
 import { ParamIdDto } from 'src/common/dtos/param.dto';
+import { RedisCacheService } from 'src/common/redis-cache/redis-cache.service';
 
 @Injectable()
 export class PeopleService {
-  constructor(private readonly starWarService: StarWarService) {}
-
+  constructor(
+    private readonly starWarService: StarWarService,
+    private readonly redisCacheService: RedisCacheService,
+  ) {}
   async getPeople(
     page: number,
     search?: string,
   ): Promise<PaginatedPeopleResponse> {
+    const cacheKey = `people_page_${page}`;
+
+    const cachedData = await this.redisCacheService.get(cacheKey);
+    if (cachedData) return cachedData;
     const data = await this.starWarService.getPeople(page, search);
 
     const paginatedResponse: PaginatedPeopleResponse = {
@@ -28,10 +35,15 @@ export class PeopleService {
       results: data.results.map(this.mapToPeopleBase),
     };
 
+    await this.redisCacheService.set(cacheKey, paginatedResponse, 1800);
     return paginatedResponse;
   }
 
   async getPersonById(params: ParamIdDto): Promise<People> {
+    const cacheKey = `person_${params.id}`;
+
+    const cachedData = await this.redisCacheService.get(cacheKey);
+    if (cachedData) return cachedData;
     const person = await this.starWarService.getPeopleByID(params.id);
     const [films, starships, vehicles, homeworld] = await Promise.all([
       this.fetchFilms(person.films),
@@ -47,7 +59,7 @@ export class PeopleService {
       vehicles,
       starships,
     });
-
+    await this.redisCacheService.set(cacheKey, peopleWithDetails, 1800);
     return peopleWithDetails;
   }
 
