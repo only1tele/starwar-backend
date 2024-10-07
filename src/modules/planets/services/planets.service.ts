@@ -46,7 +46,7 @@ export class PlanetsService {
     if (cachedData) return cachedData;
     const planet = await this.starWarService.getPlanetByID(params.id);
     const [residents, films] = await Promise.all([
-      this.fetchResidents([...planet.residents, 'sssss']),
+      this.fetchResidents(planet.residents),
       this.fetchFilms(planet.films),
     ]);
     const planetWithDetails = this.mapToPlanet({
