@@ -9,6 +9,7 @@ import {
   StarwarPlanet,
 } from 'src/providers/starwar/starwar.type';
 import { ParamIdDto } from 'src/common/dtos/param.dto';
+import { omit } from 'lodash';
 
 @Injectable()
 export class PlanetsService {
@@ -77,34 +78,43 @@ export class PlanetsService {
   }
 
   private mapToPlanetBase(planet: StarwarPlanet) {
+    // return {
+    //   id: extractIdFromUrl(planet.url),
+    //   name: planet.name,
+    //   rotation_period: planet.rotation_period,
+    //   orbital_period: planet.orbital_period,
+    //   diameter: planet.diameter,
+    //   climate: planet.climate,
+    //   gravity: planet.gravity,
+    //   terrain: planet.terrain,
+    //   surface_water: planet.surface_water,
+    //   population: planet.population,
+    // } as PlanetBase;
+
     return {
       id: extractIdFromUrl(planet.url),
-      name: planet.name,
-      rotation_period: planet.rotation_period,
-      orbital_period: planet.orbital_period,
-      diameter: planet.diameter,
-      climate: planet.climate,
-      gravity: planet.gravity,
-      terrain: planet.terrain,
-      surface_water: planet.surface_water,
-      population: planet.population,
+      ...omit(planet, ['residents', 'edited', 'films', 'url']),
     } as PlanetBase;
   }
 
   private mapToPlanet(planet: StarwarPlanet) {
+    // return {
+    //   id: extractIdFromUrl(planet.url),
+    //   name: planet.name,
+    //   rotation_period: planet.rotation_period,
+    //   orbital_period: planet.orbital_period,
+    //   diameter: planet.diameter,
+    //   climate: planet.climate,
+    //   gravity: planet.gravity,
+    //   terrain: planet.terrain,
+    //   surface_water: planet.surface_water,
+    //   population: planet.population,
+    //   residents: planet.residents,
+    //   films: planet.films,
+    // } as Planet;
     return {
       id: extractIdFromUrl(planet.url),
-      name: planet.name,
-      rotation_period: planet.rotation_period,
-      orbital_period: planet.orbital_period,
-      diameter: planet.diameter,
-      climate: planet.climate,
-      gravity: planet.gravity,
-      terrain: planet.terrain,
-      surface_water: planet.surface_water,
-      population: planet.population,
-      residents: planet.residents,
-      films: planet.films,
+      ...omit(planet, ['url', 'edited']),
     } as Planet;
   }
 }

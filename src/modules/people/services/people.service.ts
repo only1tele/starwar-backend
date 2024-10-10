@@ -12,6 +12,7 @@ import { PaginatedPeopleResponse, People, PeopleBase } from '../dtos/people';
 import { ParamIdDto } from 'src/common/dtos/param.dto';
 import { RedisCacheService } from 'src/common/redis-cache/redis-cache.service';
 import { ConfigService } from '@nestjs/config';
+import { omit } from 'lodash';
 
 @Injectable()
 export class PeopleService {
@@ -110,36 +111,51 @@ export class PeopleService {
   }
 
   private mapToPeopleBase(person: StarwarPeople) {
+    // return {
+    //   id: extractIdFromUrl(person.url),
+    //   name: person.name,
+    //   height: person.height,
+    //   mass: person.mass,
+    //   hair_color: person.hair_color,
+    //   skin_color: person.skin_color,
+    //   eye_color: person.eye_color,
+    //   birth_year: person.birth_year,
+    //   gender: person.gender,
+    //   created: person.created,
+    // } as PeopleBase;
     return {
       id: extractIdFromUrl(person.url),
-      name: person.name,
-      height: person.height,
-      mass: person.mass,
-      hair_color: person.hair_color,
-      skin_color: person.skin_color,
-      eye_color: person.eye_color,
-      birth_year: person.birth_year,
-      gender: person.gender,
-      created: person.created,
+      ...omit(person, [
+        'url',
+        'edited',
+        'homeworld',
+        'films',
+        'vehicles',
+        'starships',
+      ]),
     } as PeopleBase;
   }
 
   private mapToPeople(person: StarwarPeople) {
+    // return {
+    //   id: extractIdFromUrl(person.url),
+    //   name: person.name,
+    //   height: person.height,
+    //   mass: person.mass,
+    //   hair_color: person.hair_color,
+    //   skin_color: person.skin_color,
+    //   eye_color: person.eye_color,
+    //   birth_year: person.birth_year,
+    //   gender: person.gender,
+    //   homeworld: person.homeworld,
+    //   films: person.films,
+    //   vehicles: person.vehicles,
+    //   starships: person.starships,
+    //   created: person.created,
+    // } as People;
     return {
       id: extractIdFromUrl(person.url),
-      name: person.name,
-      height: person.height,
-      mass: person.mass,
-      hair_color: person.hair_color,
-      skin_color: person.skin_color,
-      eye_color: person.eye_color,
-      birth_year: person.birth_year,
-      gender: person.gender,
-      homeworld: person.homeworld,
-      films: person.films,
-      vehicles: person.vehicles,
-      starships: person.starships,
-      created: person.created,
+      ...omit(person, ['url', 'edited']),
     } as People;
   }
 }
